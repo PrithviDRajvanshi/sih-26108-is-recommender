@@ -798,6 +798,57 @@ This automated intervention protects public procurement entities from multimilli
 
 ---
 
+## 24. Official References & Authoritative Regulatory Framework
+
+To ensure that requirement extraction, standards recommendation, and conformity checks remain anchored in official domain realities rather than speculative models, StandardSense aligns with the statutory and administrative sources governing the Indian Standards ecosystem.
+
+### 24.1 Alignment with the Product Intelligence Workflow
+Official references support the user journey at each distinct transition:
+
+$$\mathbf{User / Tender} \longrightarrow \mathbf{Requirement\ Understanding} \longrightarrow \mathbf{Applicable\ Standards} \longrightarrow \mathbf{Certification / Conformity} \longrightarrow \mathbf{Evidence-Backed\ Recommendation}$$
+
+```
++---------------------------------------------------------------------------------------------------------+
+| WORKFLOW STAGE                     | PRIMARY OFFICIAL ANCHOR & REGULATORY RELEVANCE                     |
++---------------------------------------------------------------------------------------------------------+
+| Standards Discovery                | BIS Standards Portal: Identifies official standard existence,     |
+|                                    | titles, and divisional scope boundaries.                           |
+| Metadata & Lifecycle Verification  | BIS Know Your Standard: Verifies active edition, published         |
+|                                    | amendments, reaffirmed status, and technical committee jurisdiction.|
+| Statutory Foundation               | BIS Act, 2016 (India Code): Provides legal authority for national  |
+|                                    | standards, standard marks, and penal provisions for non-compliance.|
+| Conformity Scheme Intelligence     | BIS Product Certification: Identifies applicable conformity regimes|
+|                                    | (e.g., Scheme-I ISI Mark, Scheme-II Compulsory Registration).       |
+| Mandatory Enforcement Audits       | Products Under Compulsory Certification: Identifies items governed |
+|                                    | by statutory Quality Control Orders (QCOs) where marking is law.   |
+| Verification Checklist Formation   | BIS Certification Process: Models testing schemes, factory audit  |
+|                                    | requirements, and surveillance protocols for technical evaluation.  |
++---------------------------------------------------------------------------------------------------------+
+```
+
+### 24.2 Curated Official Sources (India / BIS Proving Ground)
+The following official Government of India and Bureau of Indian Standards resources represent the initial authoritative ecosystem:
+
+- [BIS Standards Portal](https://standards.bis.gov.in/) — Official BIS standards discovery and information portal, providing the authoritative registry of published Indian Standards, division-wise technical catalogs, and draft standards under public review.
+- [BIS — Know Your Standard](https://www.bis.gov.in/know-your-standard/) — Official BIS resource for discovering standards and related information such as active amendments, gazette notifications, testing schemes, recognized laboratories, active licenses, and sectional committees.
+- [BIS Act, 2016 (India Code)](https://www.indiacode.nic.in/bitstream/123456789/2157/3/A2016-11.pdf) — Government of India legal source defining the statutory framework for the national standards body, the establishment of Indian Standards, the legal effect of the Standard Mark, and the statutory basis for mandatory Quality Control Orders (QCOs).
+- [BIS Product Certification](https://www.bis.gov.in/product-certification/) — Official information portal on BIS product certification schemes, operating guidelines, conformity assessment frameworks, and factory surveillance requirements.
+- [BIS — Products Under Compulsory Certification](https://www.bis.gov.in/product-certification/products-under-compulsory-certification/) — Official BIS registry detailing product categories, HS codes, and Indian Standards covered under mandatory certification regimes notified by Central Government ministries.
+- [BIS Certification Process](https://www.bis.gov.in/certification-process-4/) — Official reference detailing the step-by-step product certification workflows, sampling guidelines, laboratory testing procedures, and grant-of-license conditions used to structure technical evaluation checklists.
+
+### 24.3 Essential Boundaries: Discovery vs. Applicability vs. Conformity vs. Legal Compliance
+A cornerstone of the StandardSense product philosophy is the strict differentiation between technical recommendation and statutory compliance:
+
+1. **Standards Discovery**: Confirming that a standard exists within the national catalog (e.g., via the *BIS Standards Portal*).
+2. **Standards Applicability**: Technical reasoning determining that a standard's technical scope matches the physical and operational parameters extracted from the tender.
+3. **Conformity Requirements**: Identifying whether statutory orders mandate third-party certification (e.g., via *Products Under Compulsory Certification*).
+4. **Legal Compliance**: StandardSense is an engineering decision-support tool, not an automated certifying authority. Recommending an applicable standard or flagging a mandatory QCO provides defensible evidence to procurement officers, but does not autonomously constitute legal compliance or warranty of contract fulfillment. Final procurement decisions, bid acceptances, and contract awards remain the sole statutory responsibility of the authorized human officer.
+
+### 24.4 Jurisdiction-Aware Expansion Beyond India
+While SIH26108 establishes Indian Standards (BIS) as the initial proving ground, these official references represent the India-specific instance of a global abstraction. In subsequent international phases, counterpart authoritative bodies (e.g., NIST, ANSI, ASTM, and FAR Incorporations by Reference in the USA; BSI in the UK; CEN, CENELEC, and Official Journal Harmonised Standards in the EU; ISO/IEC internationally) provide the jurisdictional foundation, maintaining an identical evidence-first pipeline.
+
+---
+
 ### End of Product Specification
 *(Proceed to [ARCHITECTURE.md](ARCHITECTURE.md) for technical design and subsystem implementation specifications)*
 

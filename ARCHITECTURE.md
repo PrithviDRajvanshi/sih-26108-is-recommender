@@ -392,7 +392,83 @@ No standard recommendation, gap alert, or QCO mandate is serialized to the API o
 
 ---
 
-## 8. Division of Labor: LLM vs Deterministic Execution
+## 8. Authoritative Sources & Reference Architecture
+
+The integrity of StandardSense rests on anchoring all deterministic validation, graph construction, and evidence generation in recognized authoritative sources. Rather than treating language models as knowledge repositories, the architecture ingests, indexes, and cross-references structured feeds and official gazette publications.
+
+### 8.1 The Authoritative Evidence Ingestion Pipeline
+Authoritative domain sources feed directly into the intelligence pipeline across distinct, verified stages:
+
+```mermaid
+flowchart TD
+    AS[Authoritative Sources: BIS Portal, Know Your Standard, Gazette, BIS Act] --> Ingest[Source Ingestion / Metadata Acquisition]
+    Ingest --> Norm[Normalization & Schema Validation]
+    Norm --> SKM[Standards Knowledge Model & Graph]
+    SKM --> Evid[Evidence & Provenance Registry]
+    Evid --> Retr[Retrieval & Technical Re-ranking]
+    Retr --> Verif[Deterministic Verification Engine]
+    Verif --> Recom[Recommendation Package Assembly]
+    Recom --> Human[Human-in-the-Loop Approval]
+```
+
+### 8.2 Technical Mapping of Authoritative Sources (India / BIS Proving Ground)
+For the Phase 1 Indian Standards proving ground (SIH26108), the architecture integrates six core official sources into specific architectural components:
+
+```
++-------------------------------------------------------------+-----------------------------+----------------------------------------------------------------------+
+| OFFICIAL SOURCE                                             | PRIMARY ARCHITECTURAL ROLE  | SUBSYSTEM INTEGRATION & DATA CONSUMPTION                             |
++-------------------------------------------------------------+-----------------------------+----------------------------------------------------------------------+
+| BIS Standards Portal                                        | Standards Discovery         | Ingests published standard identifiers, full titles, divisional     |
+| https://standards.bis.gov.in/                               | & Catalog Baseline          | classification codes, and active technical committee scopes.         |
++-------------------------------------------------------------+-----------------------------+----------------------------------------------------------------------+
+| BIS — Know Your Standard                                    | Metadata, Amendments        | Supplies active edition years, gazette amendment notices,            |
+| https://www.bis.gov.in/know-your-standard/                  | & Testing Schemes           | reaffirmation dates, recognized laboratory networks, and licenses.   |
++-------------------------------------------------------------+-----------------------------+----------------------------------------------------------------------+
+| BIS Act, 2016 (India Code)                                  | Statutory & Regulatory      | Models legal definitions of the Standard Mark, national standards,   |
+| https://www.indiacode.nic.in/.../A2016-11.pdf               | Foundation                  | penal liabilities, and Section 16 Quality Control Order powers.      |
++-------------------------------------------------------------+-----------------------------+----------------------------------------------------------------------+
+| BIS Product Certification                                   | Certification Intelligence  | Structures conformity assessment schemas (Scheme-I ISI Mark,         |
+| https://www.bis.gov.in/product-certification/               | & Conformity Schemes        | Scheme-II CRS), factory inspection rules, and surveillance cycles.   |
++-------------------------------------------------------------+-----------------------------+----------------------------------------------------------------------+
+| Products Under Compulsory Certification                     | Mandatory Conformity        | Populates the high-priority regulatory rule engine that matches HS   |
+| https://www.bis.gov.in/.../products-under-.../             | & Statutory QCO Matching    | codes and product categories against legally mandated orders.        |
++-------------------------------------------------------------+-----------------------------+----------------------------------------------------------------------+
+| BIS Certification Process                                   | Certification Workflows     | Defines step-by-step verification checklists for technical bid       |
+| https://www.bis.gov.in/certification-process-4/             | & Audit Checklists          | evaluation (sampling, lab test validity, license status).            |
++-------------------------------------------------------------+-----------------------------+----------------------------------------------------------------------+
+```
+
+### 8.3 Critical Epistemic Principle: "LLM is Not the Source of Truth"
+StandardSense enforces a strict architectural boundary: **The language model is an extraction and reasoning aid, never an authoritative authority of record.**
+
+The system rigorously classifies all output data into five distinct epistemic states:
+1. **VERIFIED**: Assertions grounded directly in authoritative records (e.g., standard numbers validated against the *BIS Standards Portal*, mandatory QCO status confirmed via *Products Under Compulsory Certification*).
+2. **INFERRED**: Algorithmic deductions or semantic model correlations requiring explicit human validation (e.g., predicted auxiliary test methods).
+3. **UNKNOWN**: Parameters or requirements where available indexed evidence is insufficient; the system refuses to guess.
+4. **CONFLICTING**: Scenarios where authoritative sources or tender clauses disagree (e.g., tender demands an obsolete amendment violating a newly notified QCO).
+5. **OUT_OF_COVERAGE**: Domains, private codes, or non-indexed international standards beyond the current jurisdiction catalog.
+
+### 8.4 Legal, Licensing & Access Architecture
+StandardSense is engineered with strict adherence to copyright laws, database rights, and terms of service:
+- **No Unrestricted Document Scraping**: The system does not conduct unauthorized mass scraping of proprietary standards portals or claim unrestricted access to copyrighted standard full texts.
+- **Permitted Ingestion Surface**:
+  1. *Publicly Available Authoritative Metadata*: Standard identifiers, titles, amendment lists, publication dates, and committee scopes.
+  2. *Legally Accessible Gazette Documents*: Central Government Quality Control Orders (QCOs), Ministry notifications, and statutory rules published in the public domain.
+  3. *Permitted Technical Excerpts*: Essential numerical thresholds, formulas, and scope statements utilized under statutory fair-dealing doctrines for public procurement evaluation.
+  4. *Licensed Enterprise Content*: Official APIs, licensed standard distributions, or direct customer-provided repositories where formal access agreements exist.
+
+### 8.5 Global Architectural Scalability (Jurisdiction as Data)
+While SIH26108 grounds the engine in the Bureau of Indian Standards ecosystem, the architecture maintains a strict abstraction layer where **Jurisdiction is Data**:
+- In the **United States**, the ingestion adapters interface with NIST, ANSI, ASTM, and Federal Acquisition Regulation (FAR) standards incorporated by reference.
+- In the **United Kingdom**, adapters map to British Standards Institution (BSI) catalogs and UKCA conformity frameworks.
+- In the **European Union**, adapters connect to Harmonised Standards published in the Official Journal (OJEU) under CE marking directives.
+- In **International Procurement**, adapters interface with ISO and IEC standard registries.
+
+The core retrieval, knowledge graph traversal, gap analysis, and evidence-verification engines remain 100% agnostic to the underlying jurisdiction.
+
+---
+
+## 9. Division of Labor: LLM vs Deterministic Execution
 
 StandardSense enforces strict isolation between probabilistic language models and deterministic validation engines.
 
@@ -413,7 +489,7 @@ StandardSense enforces strict isolation between probabilistic language models an
 
 ---
 
-## 9. Data Storage & Infrastructure Topology
+## 10. Data Storage & Infrastructure Topology
 
 StandardSense balances enterprise-grade performance with lean infrastructure discipline.
 
@@ -438,7 +514,7 @@ StandardSense balances enterprise-grade performance with lean infrastructure dis
 +----------------------------------------------------------------------------------------------------+
 ```
 
-### 9.1 Storage Sizing & Indexing Strategy (MVP)
+### 10.1 Storage Sizing & Indexing Strategy (MVP)
 - **Standards Master Catalog**: ~25,000 active Indian Standards (BIS) $\approx$ 150MB relational data.
 - **Normative Relationships**: ~120,000 relationship edges $\approx$ 65MB relational index.
 - **Clause Vector Embeddings**: ~500,000 chunked clause embeddings (768d Float32) $\approx$ 1.6GB index size in `pgvector` with HNSW indexing ($M=16$, $efConstruction=64$).
@@ -446,7 +522,7 @@ StandardSense balances enterprise-grade performance with lean infrastructure dis
 
 ---
 
-## 10. Multilingual Architecture
+## 11. Multilingual Architecture
 
 StandardSense handles regional procurement inputs without losing semantic precision.
 
@@ -471,17 +547,17 @@ sequenceDiagram
 
 ---
 
-## 11. Security, Compliance & Data Governance
+## 12. Security, Compliance & Data Governance
 
 Tender specifications, particularly in defense, public infrastructure, and power generation, are sensitive commercial assets.
 
-### 11.1 Security Implementation Matrix
+### 12.1 Security Implementation Matrix
 - **Authentication & Access Control**: OAuth 2.0 / OpenID Connect with fine-grained Role-Based Access Control (RBAC) separating Indenting Officers, Evaluators, and System Auditors.
 - **Data Protection at Rest & in Transit**: All relational data, object stores, and database backups are encrypted using AES-256. All perimeter and internal service traffic requires TLS 1.3.
 - **External LLM Privacy Safeguards**: Zero-Data-Retention agreements enforced via enterprise API endpoints. No customer tender text or proprietary specifications are retained or used for foundation model fine-tuning.
 - **Tenant Isolation**: Multi-tenant architecture using PostgreSQL Row-Level Security (RLS) policies keyed by `organization_id`.
 
-### 11.2 Legal & Copyright Compliance Architecture
+### 12.2 Legal & Copyright Compliance Architecture
 StandardSense respects the intellectual property rights of national and international standards organizations:
 - **No Full-Text Redistribution**: The platform does not redistribute complete PDF copies of copyrighted standards.
 - **Permitted Metadata & Fair Dealing Excerpts**: The knowledge graph indexes metadata (titles, scopes, clause headers, tables of contents, and essential numerical thresholds) as permitted under fair dealing doctrines for statutory compliance, research, and public procurement.
@@ -489,11 +565,11 @@ StandardSense respects the intellectual property rights of national and internat
 
 ---
 
-## 12. Observability, Distributed Tracing & Auditability
+## 13. Observability, Distributed Tracing & Auditability
 
 Every decision generated by StandardSense must be fully reconstructible for regulatory and judicial scrutiny.
 
-### 12.1 OpenTelemetry Distributed Tracing
+### 13.1 OpenTelemetry Distributed Tracing
 Each analysis request generates a globally unique `TraceID` propagated across all internal pipeline stages:
 - `span: document_parsing`: Captures parser engine, page count, OCR confidence score.
 - `span: requirement_extraction`: Records prompt token count, model ID, raw extraction payload.
@@ -501,14 +577,14 @@ Each analysis request generates a globally unique `TraceID` propagated across al
 - `span: rule_verification`: Captures scope filters applied, boundary violations, active version states.
 - `span: human_review`: Logs reviewer identity, timestamp, accepted/rejected recommendations, override comments.
 
-### 12.2 Immutable Audit Ledger
+### 13.2 Immutable Audit Ledger
 Audit records are written to an append-only, tamper-evident PostgreSQL table with cryptographic SHA-256 state chaining:
 
 $$\mathbf{Hash}_n = \mathbf{SHA256}(\mathbf{Hash}_{n-1} \parallel \mathbf{Timestamp}_n \parallel \mathbf{TenderID} \parallel \mathbf{Payload}_n)$$
 
 ---
 
-## 13. Failure Modes & Resilience Engineering
+## 14. Failure Modes & Resilience Engineering
 
 ```
 +------------------------------------+----------------------------------------------------------------------+
@@ -528,7 +604,7 @@ $$\mathbf{Hash}_n = \mathbf{SHA256}(\mathbf{Hash}_{n-1} \parallel \mathbf{Timest
 
 ---
 
-## 14. System Evaluation & Benchmarking Framework
+## 15. System Evaluation & Benchmarking Framework
 
 StandardSense implements an automated benchmarking harness executed on every pull request affecting extraction, retrieval, or rule logic.
 
@@ -549,7 +625,7 @@ StandardSense implements an automated benchmarking harness executed on every pul
 +----------------------------------------------------------------------------------------------------+
 ```
 
-### 14.1 Metric Categorization & Baselines
+### 15.1 Metric Categorization & Baselines
 - **Retrieval Recall@10**: Target $\ge 92.0\%$ (Benchmark against manual procurement officer baseline of $62\%$).
 - **Normative Reference Coverage**: Target $\ge 88.0\%$ discovered normative dependencies.
 - **Unsupported Standard ID Rate**: Mandated $0.0\%$ (Enforced via hard foreign-key constraints).
@@ -557,7 +633,7 @@ StandardSense implements an automated benchmarking harness executed on every pul
 
 ---
 
-## 15. Conceptual Domain Model
+## 16. Conceptual Domain Model
 
 The conceptual domain model expresses the core entities and their relationships independent of concrete database tables.
 
@@ -599,11 +675,11 @@ The conceptual domain model expresses the core entities and their relationships 
 
 ---
 
-## 16. Proposed API Interfaces (REST Contracts)
+## 17. Proposed API Interfaces (REST Contracts)
 
 All endpoints are strictly **PROPOSED** for Phase 1 implementation.
 
-### 16.1 POST /api/v1/analyze
+### 17.1 POST /api/v1/analyze
 Initiates asynchronous technical analysis of a tender document or specification payload.
 
 #### Request Payload:
@@ -632,15 +708,15 @@ Initiates asynchronous technical analysis of a tender document or specification 
 }
 ```
 
-### 16.2 GET /api/v1/recommendations/{id}
+### 17.2 GET /api/v1/recommendations/{id}
 Retrieves the complete recommendation package, including matched standards, version states, gap analysis, and evidence anchors.
 
-### 16.3 GET /api/v1/standards/{id}/graph
+### 17.3 GET /api/v1/standards/{id}/graph
 Returns the interactive graph neighborhood of a standard (normative references, test methods, supersessions, QCOs) in node-link JSON format.
 
 ---
 
-## 17. Key Architectural Decisions (ADRs)
+## 18. Key Architectural Decisions (ADRs)
 
 ```
 +----+------------------------------------+----------------------------------------------------------+
@@ -690,7 +766,7 @@ Returns the interactive graph neighborhood of a standard (normative references, 
 
 ---
 
-## 18. MVP Implementation Blueprint (Phased Execution)
+## 19. MVP Implementation Blueprint (Phased Execution)
 
 ```
 +-----------------------------------------------------------------------------------------+
@@ -727,11 +803,11 @@ Returns the interactive graph neighborhood of a standard (normative references, 
 
 ---
 
-## 19. Detailed Subsystem Port & Adapter Interfaces
+## 20. Detailed Subsystem Port & Adapter Interfaces
 
 To guarantee strict modularity within the modular monolith, subsystems communicate exclusively across typed interfaces (ports).
 
-### 19.1 Ingestion & Extraction Ports
+### 20.1 Ingestion & Extraction Ports
 ```typescript
 export interface IngestionPort {
   ingestDocument(fileBuffer: Buffer, mimeType: string, options?: IngestionOptions): Promise<ParsedDocument>;
@@ -744,7 +820,7 @@ export interface ExtractionPort {
 }
 ```
 
-### 19.2 Retrieval & Re-ranking Ports
+### 20.2 Retrieval & Re-ranking Ports
 ```typescript
 export interface HybridRetrievalPort {
   searchCandidates(query: RetrievalQuery, limit: number): Promise<CandidateStandard[]>;
@@ -758,7 +834,7 @@ export interface TechnicalReRankingPort {
 }
 ```
 
-### 19.3 Knowledge Graph & Version Ports
+### 20.3 Knowledge Graph & Version Ports
 ```typescript
 export interface StandardsGraphPort {
   getNormativeTree(standardId: string, maxDepth: number): Promise<NormativeTreeNode>;
@@ -773,7 +849,7 @@ export interface VersionIntelligencePort {
 }
 ```
 
-### 19.4 Gap Analysis & Audit Ports
+### 20.4 Gap Analysis & Audit Ports
 ```typescript
 export interface GapAnalysisPort {
   evaluateSpecificationGap(
@@ -791,7 +867,7 @@ export interface AuditPort {
 
 ---
 
-## 20. Proposed Composite Re-ranking Formulation
+## 21. Proposed Composite Re-ranking Formulation
 
 *(Explicitly Labeled: Proposed Engineering Model — Subject to Empirical Calibration)*
 
@@ -818,11 +894,11 @@ Where $s$ is candidate standard, $r$ is tender requirement, and weights satisfy 
 
 ---
 
-## 21. Complete Proposed REST API Specifications
+## 22. Complete Proposed REST API Specifications
 
 All endpoints below are **PROPOSED** and versioned under `/api/v1`.
 
-### 21.1 GET /api/v1/standards/{id}
+### 22.1 GET /api/v1/standards/{id}
 Retrieves detailed metadata, lifecycle state, active amendments, and governing QCOs for a standard.
 
 ```
@@ -840,10 +916,10 @@ Response: 200 OK
 }
 ```
 
-### 21.2 GET /api/v1/recommendations/{id}/evidence
+### 22.2 GET /api/v1/recommendations/{id}/evidence
 Retrieves all cryptographic evidence anchors and clause-level citations associated with a recommendation package.
 
-### 21.3 GET /api/v1/recommendations/{id}/gaps
+### 22.3 GET /api/v1/recommendations/{id}/gaps
 Retrieves the granular 6-state gap analysis table reconciling tender requirements against governing standards.
 
 ---
