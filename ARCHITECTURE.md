@@ -727,5 +727,127 @@ Returns the interactive graph neighborhood of a standard (normative references, 
 
 ---
 
+## 19. Detailed Subsystem Port & Adapter Interfaces
+
+To guarantee strict modularity within the modular monolith, subsystems communicate exclusively across typed interfaces (ports).
+
+### 19.1 Ingestion & Extraction Ports
+```typescript
+export interface IngestionPort {
+  ingestDocument(fileBuffer: Buffer, mimeType: string, options?: IngestionOptions): Promise<ParsedDocument>;
+  extractLayoutStructures(document: ParsedDocument): Promise<DocumentStructure>;
+}
+
+export interface ExtractionPort {
+  extractRequirements(section: DocumentSection): Promise<ExtractedRequirement[]>;
+  normalizeParameters(requirement: ExtractedRequirement): Promise<NormalizedRequirement>;
+}
+```
+
+### 19.2 Retrieval & Re-ranking Ports
+```typescript
+export interface HybridRetrievalPort {
+  searchCandidates(query: RetrievalQuery, limit: number): Promise<CandidateStandard[]>;
+  computeDenseEmbeddings(text: string): Promise<Float32Array>;
+  executeSparseSearch(terms: string[], filter: MetadataFilter): Promise<ScoredRecord[]>;
+}
+
+export interface TechnicalReRankingPort {
+  filterScopeBoundaries(candidates: CandidateStandard[], parameters: ExtractedParameters): CandidateStandard[];
+  scoreTechnicalAlignment(requirement: NormalizedRequirement, standard: StandardMetadata): Promise<TechnicalScore>;
+}
+```
+
+### 19.3 Knowledge Graph & Version Ports
+```typescript
+export interface StandardsGraphPort {
+  getNormativeTree(standardId: string, maxDepth: number): Promise<NormativeTreeNode>;
+  getRelatedStandards(standardId: string, relationshipType?: string): Promise<StandardsEdge[]>;
+  verifyEquivalence(standardA: string, standardB: string): Promise<EquivalenceAssessment>;
+}
+
+export interface VersionIntelligencePort {
+  getStandardLifecycle(standardId: string, asOfDate?: Date): Promise<LifecycleRecord>;
+  getActiveAmendments(standardId: string, editionYear: number): Promise<AmendmentRecord[]>;
+  traceSupersessionChain(standardId: string): Promise<SupersessionChain>;
+}
+```
+
+### 19.4 Gap Analysis & Audit Ports
+```typescript
+export interface GapAnalysisPort {
+  evaluateSpecificationGap(
+    tenderReq: NormalizedRequirement, 
+    standardClause: ClauseRequirement
+  ): Promise<GapEvaluationResult>;
+}
+
+export interface AuditPort {
+  recordEvent(event: AuditEvent): Promise<AuditReceipt>;
+  verifyIntegrity(auditReceiptId: string): Promise<IntegrityVerificationResult>;
+  exportAuditDossier(tenderId: string): Promise<AuditDossierPayload>;
+}
+```
+
+---
+
+## 20. Proposed Composite Re-ranking Formulation
+
+*(Explicitly Labeled: Proposed Engineering Model — Subject to Empirical Calibration)*
+
+To combine multi-modal signals into a single calibrated applicability score without opaque black-box scoring, StandardSense proposes a linear-convex composite precision scoring function:
+
+$$\mathbf{S}_{\text{composite}}(s, r) = \sum_{i=1}^{6} w_i \cdot \phi_i(s, r)$$
+
+Where $s$ is candidate standard, $r$ is tender requirement, and weights satisfy $\sum w_i = 1.0$:
+
+```
++----+-----------------------------+--------+-------------------------------------------------------------+
+| $i$| COMPONENT FEATURE $\phi_i$   | WEIGHT | EVALUATION MECHANISM                                        |
++----+-----------------------------+--------+-------------------------------------------------------------+
+| 1  | $\phi_{\text{dense}}$       | 0.25   | Normalized cosine similarity between dense vector vectors.  |
+| 2  | $\phi_{\text{sparse}}$      | 0.20   | Normalized BM25 lexical relevance score on titles/clauses.  |
+| 3  | $\phi_{\text{scope}}$       | 0.25   | Deterministic boolean/penalty step function for parameters. |
+| 4  | $\phi_{\text{version}}$     | 0.15   | 1.0 if CURRENT/AMENDED; 0.0 if SUPERSEDED; -1.0 if WITHDRAWN|
+| 5  | $\phi_{\text{regulatory}}$  | 0.10   | 1.0 if covered by mandatory Gazette QCO; 0.5 if voluntary.  |
+| 6  | $\phi_{\text{evidence}}$    | 0.05   | Confidence metric of retrieved authoritative clause excerpt |
++----+-----------------------------+--------+-------------------------------------------------------------+
+```
+
+*Deterministic Override Rule*: If $\phi_{\text{scope}}(s, r) = \text{OUT\_OF\_BOUNDS}$, the composite score is clipped to 0.0, regardless of semantic similarity. A 100% semantic text match cannot override a physical dimensional violation.
+
+---
+
+## 21. Complete Proposed REST API Specifications
+
+All endpoints below are **PROPOSED** and versioned under `/api/v1`.
+
+### 21.1 GET /api/v1/standards/{id}
+Retrieves detailed metadata, lifecycle state, active amendments, and governing QCOs for a standard.
+
+```
+Response: 200 OK
+{
+  "standard_id": "IS 694",
+  "title": "Polyvinyl Chloride Insulated Unsheathed and Sheathed Cables...",
+  "edition": "2010 (Fifth Revision)",
+  "status": "AMENDED",
+  "amendments_count": 2,
+  "jurisdiction": "IND",
+  "standards_body": "BIS",
+  "qco_mandated": true,
+  "qco_reference": "DPIIT Electrical Cables (Quality Control) Order, 2023"
+}
+```
+
+### 21.2 GET /api/v1/recommendations/{id}/evidence
+Retrieves all cryptographic evidence anchors and clause-level citations associated with a recommendation package.
+
+### 21.3 GET /api/v1/recommendations/{id}/gaps
+Retrieves the granular 6-state gap analysis table reconciling tender requirements against governing standards.
+
+---
+
 ### End of Architecture Specification
 *(Refer to `PRODUCT_SPEC.md` for functional requirements, personas, and business scope)*
+
