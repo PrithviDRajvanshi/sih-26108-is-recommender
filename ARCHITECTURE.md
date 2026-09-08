@@ -7,7 +7,7 @@
 - **System Name**: StandardSense Engine
 - **Document Version**: 1.0.0-PROPOSED
 - **Status**: Foundational Technical Architecture
-- **Companion Document**: [PRODUCT_SPEC.md](file:///C:/Users/hardi/.gemini/antigravity-ide/scratch/sih-26108-is-recommender/PRODUCT_SPEC.md)
+- **Companion Document**: [PRODUCT_SPEC.md](PRODUCT_SPEC.md)
 - **Primary Proving Ground**: SIH26108 — AI-Powered Recommendation Engine for Identifying Applicable Indian Standards for Procurement Specifications
 - **Architectural Paradigm**: Modular Monolith with Hexagonal Domain Boundaries (Ports & Adapters)
 

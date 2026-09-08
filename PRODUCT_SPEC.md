@@ -799,5 +799,5 @@ This automated intervention protects public procurement entities from multimilli
 ---
 
 ### End of Product Specification
-*(Proceed to `ARCHITECTURE.md` for technical design and subsystem implementation specifications)*
+*(Proceed to [ARCHITECTURE.md](ARCHITECTURE.md) for technical design and subsystem implementation specifications)*
 
