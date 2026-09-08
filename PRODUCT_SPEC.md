@@ -716,5 +716,88 @@ Evaluation in StandardSense is treated as a rigorous, continuous engineering dis
 
 ---
 
+## 22. Foundational Domain Concepts & Entity Taxonomy
+
+To ensure conceptual coherence across product and engineering teams, the following entity definitions are standardized:
+
+```
++----------------------------+-----------------------------------------------------------------------------------------+
+| DOMAIN ENTITY              | OPERATIONAL DEFINITION                                                                  |
++----------------------------+-----------------------------------------------------------------------------------------+
+| Jurisdiction               | The legal and geographical territory governing procurement (e.g., India, EU, US).      |
+| StandardsBody              | The national or international body issuing standards (e.g., BIS, ISO, IEC, ASTM).       |
+| RegulatoryBody             | The statutory authority mandating compliance (e.g., DPIIT, Ministry of Power, OSHA).    |
+| Standard                   | An authoritative technical document defining requirements, specifications, or methods.  |
+| Edition                    | A distinct, major versioned release of a standard (e.g., "Third Revision: 2018").       |
+| Amendment                  | An official revision modifying specific clauses or tables of an active Edition.         |
+| Supersession               | The formal legal act replacing an older standard or edition with a new release.         |
+| Scope                      | The technical, physical, and functional boundaries within which a standard applies.     |
+| Clause                     | An individual numbered section of a standard containing specific engineering mandates.   |
+| Requirement                | An atomic, testable performance threshold, dimension, or property extracted from text.  |
+| NormativeReference         | An indispensable reference cited within a standard required to satisfy compliance.     |
+| RelatedStandard            | An informative or complementary standard providing guidance but not strictly mandatory. |
+| TestMethod                 | A standardized physical, chemical, or operational procedure to measure a parameter.     |
+| SafetyReference            | A normative standard specifically addressing life-safety, fire, or toxic hazards.       |
+| TerminologyReference       | A standard defining engineering terms, symbols, and mathematical notations.             |
+| InstallationReference      | A standard detailing field erection, commissioning, and maintenance practices.          |
+| CertificationRequirement   | A statutory mandate requiring third-party testing, licensing, or marking (e.g., ISI).   |
+| ConformityRequirement      | The specific conformity assessment scheme (e.g., Scheme-I factory audit, Scheme-II CRS).|
+| Evidence                   | An immutable, locatable anchor linking a claim to an authoritative source record.       |
+| Source                     | The originating authoritative document (e.g., Gazette notification, published standard).|
+| Recommendation             | A structured, evidence-backed package proposing standards and gaps for human review.    |
+| AuditRecord                | An immutable snapshot of all inputs, outputs, rules, and human decisions for a tender.  |
++----------------------------+-----------------------------------------------------------------------------------------+
+```
+
+---
+
+## 23. Real-World Case Study: Obsolete Pipe Specification Failure & Recovery
+
+To illustrate the concrete value of StandardSense, consider a real-world scenario frequently encountered in municipal water supply tenders:
+
+```
++----------------------------------------------------------------------------------------------------+
+| SCENARIO: 800mm Mild Steel Water Supply Pipeline Tender                                             |
++----------------------------------------------------------------------------------------------------+
+| Tender Specification Snippet:                                                                      |
+| "Supply and laying of 800mm nominal bore Mild Steel pipes, ERW type, complying with IS 1239.       |
+| Minimum wall thickness 8.0mm. Pipes shall be cement mortar lined."                                |
++----------------------------------------------------------------------------------------------------+
+| SYSTEM INTELLIGENCE EXECUTION:                                                                     |
+| 1. Parameter Extraction:                                                                           |
+|    - Product: Mild Steel Pipe, ERW                                                                 |
+|    - Diameter: 800 mm Nominal Bore                                                                 |
+|    - Wall Thickness: 8.0 mm                                                                        |
+|    - Lining: Cement Mortar                                                                         |
+|    - Tender-Cited Standard: IS 1239                                                                |
+|                                                                                                    |
+| 2. Scope & Boundary Verification (Rules Engine):                                                  |
+|    - Scope Query: IS 1239 (Part 1) governs steel tubes up to 150 mm nominal bore ONLY.             |
+|    - Conflict Detected: 800mm is OUT-OF-BOUNDS for IS 1239. Citing IS 1239 for 800mm is a fatal    |
+|      engineering error that would invalidate the procurement or lead to delivery of unsafe pipes.  |
+|                                                                                                    |
+| 3. Candidate Retrieval & Re-ranking:                                                               |
+|    - System retrieves IS 3589: "Steel Pipes for Water and Sewage (168.3 to 2540 mm Outside Dia)".  |
+|    - Currentness Check: IS 3589:2001 (Reaffirmed 2020) [VERIFIED - CURRENT].                      |
+|                                                                                                    |
+| 4. Regulatory & QCO Check:                                                                         |
+|    - Ministry of Steel QCO mandates mandatory BIS licensing (Scheme-I) for IS 3589 pipes.          |
+|                                                                                                    |
+| 5. Recommendation Package Output:                                                                  |
+|    - Status: CRITICAL CONFLICT IDENTIFIED                                                          |
+|    - Alert: "Tender cites IS 1239, but diameter 800mm exceeds IS 1239 maximum limit (150mm)."      |
+|    - Proposed Correction: Mandate IS 3589 Grade Fe 410 with mandatory ISI mark per Steel QCO.     |
+|    - Missing Normative Reference: IS 1918 for hydraulic testing; IS 11906 for cement mortar lining.|
+|                                                                                                    |
+| 6. Audit Trail:                                                                                    |
+|    - Officer accepts correction; replacement logged with citation to IS 3589 Scope Clause 1.1.    |
++----------------------------------------------------------------------------------------------------+
+```
+
+This automated intervention protects public procurement entities from multimillion-dollar litigation, contractor claims, and catastrophic pipeline failures.
+
+---
+
 ### End of Product Specification
 *(Proceed to `ARCHITECTURE.md` for technical design and subsystem implementation specifications)*
+
